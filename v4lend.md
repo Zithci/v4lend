@@ -42,3 +42,11 @@ hrus tau di convert ke 1 token apa.
 cek file oracle(v4oracle.sol)krena staau gw barang ini selalu hrus terima dari oracle as first single receiver
 
 ![alt text](image-1.png)
+
+
+-------------------
+## Sec 2
+
+### 1.
+- chainlink = feed harga external(latest round data) sumber "dunia luar"
+- TWAP rata rata tick pool v4 selama window waktu (observe -> tick accumulate delta/periode). sumber "pool itu sndiri with anti spike protection"
