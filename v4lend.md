@@ -10,9 +10,9 @@
 - konversi harga token 0 & 1 dari satuan harga oracle ke harga patokan, harga token A ke B brp ? sebaliknbya
 
 ### 2.
- - principal =  pajak bersih hasil dari potongan dari ongkos plugin
- - fees = pajak bersih kita
- - owed = utang misal buat onngkos plugin di token A atau B
+ - principal = modal isi tiket utuh 
+ - fees = pajak claim masih kotor
+ - owed = ongkos plugin yang mau di potong
 
  ### 3.
  50,krena pajak claim lebih besar dri ongkos plugin, jadi modal gw gk ksntuh
@@ -40,3 +40,5 @@ hrus tau di convert ke 1 token apa.
 
 ### 8.
 cek file oracle(v4oracle.sol)krena staau gw barang ini selalu hrus terima dari oracle as first single receiver
+
+![alt text](image-1.png)
