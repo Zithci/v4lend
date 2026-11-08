@@ -50,3 +50,11 @@ cek file oracle(v4oracle.sol)krena staau gw barang ini selalu hrus terima dari o
 ### 1.
 - chainlink = feed harga external(latest round data) sumber "dunia luar"
 - TWAP rata rata tick pool v4 selama window waktu (observe -> tick accumulate delta/periode). sumber "pool itu sndiri with anti spike protection"
+
+
+### 2.
+ - CHAINLINK_TWAP_VERIFY
+ - TWAP_CHAINLINK_VERIFY
+ - TWAP + 2 MODE
+
+ 
