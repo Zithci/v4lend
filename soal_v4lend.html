@@ -1,0 +1,530 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Tugas v4lend</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Terminal-leaning dark; a cool green accent, muted cyan for code refs. Mono for file paths, Inter for prose. */
+  :root {
+    --bg: #fafafa;
+    --bg-elev: #ffffff;
+    --bg-sunk: #f0f0f2;
+    --fg: #111216;
+    --fg-muted: #6a6e78;
+    --fg-faint: #a0a4ae;
+    --border: #e2e4ea;
+    --border-strong: #c7cad2;
+    --accent: #0a8140;
+    --accent-weak: #d6f0e0;
+    --code: #7f52a8;
+    --hint: #4a6f8e;
+    --warn: #c56b1b;
+
+    --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d0e12;
+      --bg-elev: #15171e;
+      --bg-sunk: #0a0b0e;
+      --fg: #e7e9ef;
+      --fg-muted: #9196a3;
+      --fg-faint: #5c6070;
+      --border: #22252f;
+      --border-strong: #353944;
+      --accent: #5fd97e;
+      --accent-weak: #1b2b22;
+      --code: #c69bf0;
+      --hint: #8cc4e8;
+      --warn: #e0a45c;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0e12;
+    --bg-elev: #15171e;
+    --bg-sunk: #0a0b0e;
+    --fg: #e7e9ef;
+    --fg-muted: #9196a3;
+    --fg-faint: #5c6070;
+    --border: #22252f;
+    --border-strong: #353944;
+    --accent: #5fd97e;
+    --accent-weak: #1b2b22;
+    --code: #c69bf0;
+    --hint: #8cc4e8;
+    --warn: #e0a45c;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 20px 60px;
+  }
+
+  /* ───── header ───── */
+  header { margin-bottom: 28px; }
+  h1 {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+  }
+  h1 .slash { color: var(--accent); }
+  .sub {
+    color: var(--fg-muted);
+    font-size: 13px;
+    margin: 0 0 20px;
+  }
+
+  .progress {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .progress-count {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .progress-count .num { color: var(--accent); }
+  .progress-count .den { color: var(--fg-muted); }
+  .progress-pct {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--fg-muted);
+  }
+  .bar {
+    background: var(--bg-sunk);
+    border-radius: 999px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    background: var(--accent);
+    height: 100%;
+    width: 0%;
+    transition: width 220ms ease;
+  }
+
+  /* ───── chapter ───── */
+  .chapter { margin-top: 36px; }
+  .chapter-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .chapter-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--fg-faint);
+    font-weight: 500;
+  }
+  .chapter-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+  }
+  .chapter-progress {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+
+  /* ───── task ───── */
+  .task {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .task:last-child { border-bottom: none; }
+  .task:hover .box { border-color: var(--border-strong); }
+
+  .box {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 5px;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 160ms ease;
+  }
+  .task.done .box {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .task.done .box::after {
+    content: '';
+    width: 10px;
+    height: 6px;
+    border-left: 2px solid var(--bg);
+    border-bottom: 2px solid var(--bg);
+    transform: rotate(-45deg) translate(1px, -1px);
+  }
+
+  .body { flex: 1; min-width: 0; }
+  .task.done .text { color: var(--fg-muted); text-decoration: line-through; text-decoration-thickness: 1px; }
+  .task.done .hint { opacity: 0.55; }
+
+  .text {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--fg);
+  }
+  .text code {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--code);
+    background: var(--bg-sunk);
+    padding: 1px 5px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .hint {
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--hint);
+    line-height: 1.5;
+  }
+  .hint::before {
+    content: '↳ ';
+    opacity: 0.6;
+  }
+
+  /* ───── footer ───── */
+  footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .foot-note {
+    font-size: 12px;
+    color: var(--fg-faint);
+  }
+  .reset-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  button {
+    font-family: var(--sans);
+    font-size: 13px;
+    background: transparent;
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  button:hover { color: var(--fg); border-color: var(--border-strong); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button.warn { color: var(--warn); border-color: var(--warn); }
+
+  /* celebration when all done */
+  .done-banner {
+    display: none;
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: var(--accent-weak);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--accent);
+    font-family: var(--mono);
+  }
+  .all-done .done-banner { display: block; }
+
+  @media (max-width: 480px) {
+    .wrap { padding-block: 16px 40px; }
+    h1 { font-size: 20px; }
+    .chapter { margin-top: 28px; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1><span class="slash">// </span>tugas v4lend</h1>
+    <p class="sub">39 soal. centang pas kelar. progres kesimpen di hp lu.</p>
+    <div class="progress">
+      <div class="progress-top">
+        <span class="progress-count"><span class="num" id="num">0</span><span class="den">/39</span></span>
+        <span class="progress-pct" id="pct">0%</span>
+      </div>
+      <div class="bar"><div class="bar-fill" id="fill"></div></div>
+      <div class="done-banner" id="banner">semua kelar — gilak lu beneran kerjain. 🎉</div>
+    </div>
+  </header>
+
+  <section class="chapter" id="bab-1">
+    <div class="chapter-head">
+      <span class="chapter-num">01</span>
+      <h2 class="chapter-title">Nilai tiket (getValue)</h2>
+      <span class="chapter-progress" data-chapter="1">0/8</span>
+    </div>
+    <div class="tasks"></div>
+  </section>
+
+  <section class="chapter" id="bab-2">
+    <div class="chapter-head">
+      <span class="chapter-num">02</span>
+      <h2 class="chapter-title">Harga + anti-boong</h2>
+      <span class="chapter-progress" data-chapter="2">0/5</span>
+    </div>
+    <div class="tasks"></div>
+  </section>
+
+  <section class="chapter" id="bab-3">
+    <div class="chapter-head">
+      <span class="chapter-num">03</span>
+      <h2 class="chapter-title">Minjem pake jaminan</h2>
+      <span class="chapter-progress" data-chapter="3">0/7</span>
+    </div>
+    <div class="tasks"></div>
+  </section>
+
+  <section class="chapter" id="bab-4">
+    <div class="chapter-head">
+      <span class="chapter-num">04</span>
+      <h2 class="chapter-title">Macet &amp; sita</h2>
+      <span class="chapter-progress" data-chapter="4">0/8</span>
+    </div>
+    <div class="tasks"></div>
+  </section>
+
+  <section class="chapter" id="bab-5">
+    <div class="chapter-head">
+      <span class="chapter-num">05</span>
+      <h2 class="chapter-title">Settlement bound (branch lu)</h2>
+      <span class="chapter-progress" data-chapter="5">0/8</span>
+    </div>
+    <div class="tasks"></div>
+  </section>
+
+  <section class="chapter" id="bab-6">
+    <div class="chapter-head">
+      <span class="chapter-num">06</span>
+      <h2 class="chapter-title">Praktek — jalanin test</h2>
+      <span class="chapter-progress" data-chapter="6">0/3</span>
+    </div>
+    <div class="tasks"></div>
+  </section>
+
+  <footer>
+    <span class="foot-note">centang = kesimpen. tutup tab juga aman.</span>
+    <div class="reset-wrap" id="resetWrap">
+      <button id="resetBtn">reset</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+  const TASKS = [
+    // bab 1
+    { c: 1, t: "Buka <code>V4Oracle.sol</code>, cari fungsi <code>getValue</code>. Dia balikin apa aja (list output-nya)?" },
+    { c: 1, t: "Di <code>V4Oracle.sol</code>, buka <code>_netCurrency</code>. Sebutin 3 input + arti warung tiap input.", h: "modal/pajak/ongkos pake kata-kata lu sendiri" },
+    { c: 1, t: "Trace di kepala <code>_netCurrency</code>: <code>principal=1000</code>, <code>fees=100</code>, <code>owed=50</code>. Output?" },
+    { c: 1, t: "Trace lagi: <code>principal=1000</code>, <code>fees=30</code>, <code>owed=100</code>. Output?" },
+    { c: 1, t: "Trace extreme: <code>principal=50</code>, <code>fees=10</code>, <code>owed=200</code>. Output? (hint: angka nggak boleh minus)" },
+    { c: 1, t: "Satu kalimat masing-masing: apa itu <code>_getAmounts</code> dan <code>_getFees</code>?" },
+    { c: 1, t: "<code>_quoteTokenPrice</code> bisa di-skip kapan? (hint: patokan udah kebetulan ada di isi tiket)" },
+    { c: 1, t: "Panggilan <code>getValue(tokenId, address(0))</code> error. Cari di mana check-nya." },
+
+    // bab 2
+    { c: 2, t: "<code>V4Oracle.sol</code> pake sumber harga apa aja? List semuanya." },
+    { c: 2, t: "TWAP di-cek kapan? (hint: liat <code>mode</code>)" },
+    { c: 2, t: "Apa itu <code>maxDifference</code>? Dipake buat apa?" },
+    { c: 2, t: "Cari revert soal harga basi (stale). Berapa detik maks umur harga?" },
+    { c: 2, t: "Konsep: Chainlink ngasih $2000, TWAP ngasih $1500, <code>maxDifference</code> 10%. Lolos apa reject?" },
+
+    // bab 3
+    { c: 3, t: "Di <code>V4Vault.sol:47</code>, berapa <code>MAX_COLLATERAL_FACTOR_X32</code>? Berarti margin minimal brp %?" },
+    { c: 3, t: "Apa gunanya <code>_calculateTokenCollateralFactorX32</code>? Tiket LP isi 2 token faktor 70% &amp; 50% → dia pake yang mana?" },
+    { c: 3, t: "Beda <code>collateralFactorX32</code> vs <code>collateralValueLimitFactorX32</code> apa?" },
+    { c: 3, t: "Siapa yang bisa panggil <code>setTokenConfig</code>? Apa modifier-nya?" },
+    { c: 3, t: "Trace: <code>fullValue=1000</code>, faktor 70%, <code>debt=650</code>. Sehat atau sakit?" },
+    { c: 3, t: "Trace: <code>fullValue=1000</code>, faktor 70%, <code>debt=750</code>. Sehat atau sakit?" },
+    { c: 3, t: "Cari <code>_checkLoanIsHealthy</code>. Output <code>isHealthy</code> dibikin gimana?" },
+
+    // bab 4
+    { c: 4, t: "Angka pasti <code>MIN_LIQUIDATION_PENALTY_X32</code> &amp; <code>MAX_LIQUIDATION_PENALTY_X32</code>?" },
+    { c: 4, t: "Di <code>_calculateLiquidation</code>, kapan bonus penyita = 2% (min) vs 10% (max)?" },
+    { c: 4, t: "Jaminan nggak cukup nutup utang+bonus → kekurangannya dari mana duluan?" },
+    { c: 4, t: "Apa itu <code>reserveCost</code>? Siapa yang bayar?" },
+    { c: 4, t: "Kalau <code>reserveCost</code> &gt; cadangan protokol → selanjutnya ke siapa?" },
+    { c: 4, t: "Di <code>liquidate</code>, kenapa <code>msg.sender == loanOwner</code> di-reject?", h: "ada subsidy reserve, inget AUDIT-ACCEPTED-LIQUIDATION-RESERVE-SUBSIDY" },
+    { c: 4, t: "Kenapa <code>liquidatingTokenId</code> di-set/reset di <code>liquidate</code>? (hint: reentrancy)" },
+    { c: 4, t: "Setelah <code>liquidate</code> sukses, NFT posisi lu nasibnya gimana?" },
+
+    // bab 5
+    { c: 5, t: "Nilai <code>V4_SETTLEMENT_BOUND</code> berapa?" },
+    { c: 5, t: "Kenapa angka itu, bukan angka lain?", h: "liat batas int yang v4 pake pas narik token (decrease/take)" },
+    { c: 5, t: "<code>V4Oracle.sol:179</code>: check <code>totalSupply &gt;= V4_SETTLEMENT_BOUND</code> — kalau beneran lewat, apa yang terjadi?" },
+    { c: 5, t: "Solusi awal (commit e30bfa3) apa? Satu kalimat.", h: "ide: liquidate lewat batas tetep bisa, tapi narik-nya dipotong-potong dalam satu unlock (chunked)" },
+    { c: 5, t: "Solusi final (commit a0cec58) apa? Satu kalimat.", h: "ide: bound dipindah ke token-nya (reject token yang totalSupply-nya udah &gt;= bound), bukan di posisi — jadi ga ada chunking, ga ada drift setelah admission" },
+    { c: 5, t: "Satu kalimat: kenapa solusi final (supply cap) lebih bagus dari chunking?" },
+    { c: 5, t: "Buka <code>FeeFirstRemovalLib.sol</code>. Kenapa <code>INCREASE(0)</code> datang sebelum <code>DECREASE</code>?", h: "baca komentar fungsi + V4LE-72" },
+    { c: 5, t: "Trace alur: pas <code>liquidate</code> dipanggil, fungsi mana yang ngitung <code>liquidity</code> buat ditarik?" },
+
+    // bab 6
+    { c: 6, t: "Jalanin <code>forge test --match-test testV4LE113_ObligationJustBelowSettlementBoundIsNetted -vvv</code>. Ijo apa merah? Baca output, jelasin 1 kalimat apa yang dites.", h: "ini persis cerita 'ongkos makan modal'" },
+    { c: 6, t: "Jalanin <code>forge test --match-contract V4OracleFeeObligation -vvv</code>. Berapa test lulus / gagal?" },
+    { c: 6, t: "Pilih 1 test dari <code>V4OracleSettlementBound.t.sol</code>, baca source, jelasin pake bahasa warung apa yang dites." },
+  ];
+
+  const KEY = 'tugas-v4lend-done-v1';
+  let done = new Set();
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) done = new Set(JSON.parse(raw));
+  } catch (_) {}
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify([...done])); } catch (_) {}
+  }
+
+  function render() {
+    // group by chapter, render tasks
+    const chapters = {};
+    TASKS.forEach((t, i) => { (chapters[t.c] ||= []).push({ ...t, id: i }); });
+
+    for (const [c, tasks] of Object.entries(chapters)) {
+      const container = document.querySelector('#bab-' + c + ' .tasks');
+      container.innerHTML = '';
+      tasks.forEach(t => {
+        const el = document.createElement('div');
+        el.className = 'task' + (done.has(t.id) ? ' done' : '');
+        el.setAttribute('role', 'button');
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('aria-pressed', done.has(t.id) ? 'true' : 'false');
+        el.dataset.id = t.id;
+        el.innerHTML = `
+          <div class="box" aria-hidden="true"></div>
+          <div class="body">
+            <div class="text">${t.t}</div>
+            ${t.h ? `<div class="hint">${t.h}</div>` : ''}
+          </div>
+        `;
+        container.appendChild(el);
+      });
+    }
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = TASKS.length;
+    const n = done.size;
+    document.getElementById('num').textContent = n;
+    const pct = Math.round((n / total) * 100);
+    document.getElementById('pct').textContent = pct + '%';
+    document.getElementById('fill').style.width = pct + '%';
+    document.body.classList.toggle('all-done', n === total);
+
+    // per chapter
+    const byChap = {};
+    TASKS.forEach((t, i) => {
+      byChap[t.c] ||= { done: 0, total: 0 };
+      byChap[t.c].total++;
+      if (done.has(i)) byChap[t.c].done++;
+    });
+    document.querySelectorAll('[data-chapter]').forEach(el => {
+      const c = el.dataset.chapter;
+      const s = byChap[c];
+      el.textContent = s.done + '/' + s.total;
+      if (s.done === s.total) el.style.color = 'var(--accent)';
+      else el.style.color = '';
+    });
+  }
+
+  function toggle(id) {
+    if (done.has(id)) done.delete(id);
+    else done.add(id);
+    save();
+    const el = document.querySelector('.task[data-id="' + id + '"]');
+    el.classList.toggle('done');
+    el.setAttribute('aria-pressed', done.has(id) ? 'true' : 'false');
+    updateProgress();
+  }
+
+  document.addEventListener('click', e => {
+    const task = e.target.closest('.task');
+    if (task) toggle(Number(task.dataset.id));
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key !== ' ' && e.key !== 'Enter') return;
+    const task = e.target.closest('.task');
+    if (!task) return;
+    e.preventDefault();
+    toggle(Number(task.dataset.id));
+  });
+
+  // reset with inline confirm (alert/confirm don't work in artifact viewer)
+  const resetWrap = document.getElementById('resetWrap');
+  const renderResetIdle = () => {
+    resetWrap.innerHTML = '<button id="resetBtn">reset</button>';
+    resetWrap.querySelector('#resetBtn').addEventListener('click', renderResetConfirm);
+  };
+  const renderResetConfirm = () => {
+    resetWrap.innerHTML = `
+      <span class="foot-note">yakin? hapus semua centang.</span>
+      <button id="yes" class="warn">ya reset</button>
+      <button id="no">batal</button>
+    `;
+    resetWrap.querySelector('#no').addEventListener('click', renderResetIdle);
+    resetWrap.querySelector('#yes').addEventListener('click', () => {
+      done.clear();
+      save();
+      document.querySelectorAll('.task.done').forEach(el => {
+        el.classList.remove('done');
+        el.setAttribute('aria-pressed', 'false');
+      });
+      updateProgress();
+      renderResetIdle();
+    });
+  };
+  document.getElementById('resetBtn').addEventListener('click', renderResetConfirm);
+
+  render();
+</script>
+
+</body></html>
