@@ -21,7 +21,7 @@
  ![alt text](image.png)
 
  ### 4. 
- 930.
+ 93. gw jg krang+
 
  ### 5.
 0. krna modal sama pajak kurang buat ongkos plugin itu sndiri
@@ -41,8 +41,7 @@ hrus tau di convert ke 1 token apa.
 ### 8.
 cek file oracle(v4oracle.sol)krena staau gw barang ini selalu hrus terima dari oracle as first single receiver
 
-![alt text](image-1.png)
-
+![alt text](image-1.png)                          
 
 -------------------
 ## Sec 2
@@ -57,4 +56,28 @@ cek file oracle(v4oracle.sol)krena staau gw barang ini selalu hrus terima dari o
  - TWAP_CHAINLINK_VERIFY
  - TWAP + 2 MODE
 
+### 3.
+di pake buat compare max perbedaan harga di 2 sc
+
+### 4.
+tergantung dari var maxfeedage itu sndiri,krena ya emg nilainya di isi lsng sama config,kek gk ada says explicit brp
+
+![alt text](image-2.png)
+
+### 5.
+revert.
+- kalo selisih harga itu di convert ke persen,dpet di skitar 33.3 ,exceed limit 10%
+
+![alt text](image-3.png)
+
+---
+![alt text](image-4.png)
+``` solidity
+    /// @param maxDifferenceX10000 Maximum allowable difference expressed in basis points (e.g., 1000 = 10%)
+    function _requireMaxDifference(uint256 priceX96, uint256 verifyPriceX96, uint16 maxDifferenceX10000) internal pure {
+        if (maxDifferenceX10000 == type(uint16).max) {
+            return;
+        }
+
+```
  
