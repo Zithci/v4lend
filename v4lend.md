@@ -35,7 +35,8 @@ hitung current balance yang bisa di withdraw dari ticket LP u.
 get growth fees buat each token yang LP ksh buat pool.
 
 ### 7. 
-hrus tau di convert ke 1 token apa.
+pas token patokan
+salah satu currency0/currency1 tiket(harganya udah ada)
 
 
 ### 8.
