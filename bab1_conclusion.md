@@ -19,3 +19,4 @@ Alurnya 6 langkah urut:
    - Sisa modal & pajak dikaliin harga token patokan → jadi satu angka akhir dalam satuan patokan.
 
 Output `getValue`: `value` (nilai total tiket, bersih dari ongkos plugin, dalam token patokan), `feeValue` (bagian pajak doang, dalam token patokan), `price0X96` & `price1X96` (harga token0/1 dalam token patokan).
+
