@@ -81,4 +81,49 @@ revert.
         }
 
 ```
- 
+
+---
+
+## sec 3
+### 1. 
+max collateralnya 90%
+```
+    // forge-lint: disable-next-line(unsafe-typecast)
+    uint32 public constant MAX_COLLATERAL_FACTOR_X32 = uint32(Q32 * 90 / 100); // 90%
+```
+
+
+### 2.
+dia pake yang 50% ,klo sistem take 70 ,itu bakal rugiin 2 pihak,cause either u gbs bayar krena asset not engh buat cover loan u
+
+
+### 3. 
+- collateralFactorX32 = convert token mentah jadi collateral,bassicly set hw valuable a token klo di jadiin aset.
+
+- collateralValueLimitFactorX32 =
+set how much loan yang bs user dapet based on collateral mereka .
+
+### 4. 
+none.  setTokenConfig gk ada modifier sama skli 
+
+![alt text](image-5.png)
+
+### 5.
+dpet di kisaran 700 
+![alt text](image-6.png)
+
+
+### 6.
+sehat.
+
+### 7.
+sakit.
+
+### 8.
+```
+isHealthy = collateralValue >= debt;
+```
+
+---
+## sec 4
+- 
