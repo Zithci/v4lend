@@ -126,4 +126,17 @@ isHealthy = collateralValue >= debt;
 
 ---
 ## sec 4
-- 
+### 
+1. 2%(min) , 10%(max)
+
+### 
+2. progress nya linier,mereka hitung based on collateralValue(CV) handle debt,mkin susah CV handle debt,mkin gde bonus(insentif) buat yang lunasin utangnya
+
+```
+function _calculateLiquidation(uint256 debt, uint256 fullValue, uint256 collateralValue)
+```
+
+```
+if (fullValue >= maxPenaltyValue)   →  tiket gemuk, bonus linier 2% → 10%
+else                                 →  tiket tipis, bonus dipaksa 10%
+```

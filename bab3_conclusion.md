@@ -16,3 +16,5 @@ Catatan:
 - Ada 2 jenis cap: collateralFactorX32 (per user), collateralValueLimitFactorX32 (system-wide per token)
 
 Contoh: fullValue $1000, factor 70%, debt $650 → max loan $700, sehat.
+
+
