@@ -140,3 +140,23 @@ function _calculateLiquidation(uint256 debt, uint256 fullValue, uint256 collater
 if (fullValue >= maxPenaltyValue)   →  tiket gemuk, bonus linier 2% → 10%
 else                                 →  tiket tipis, bonus dipaksa 10%
 ```
+
+### 3.
+selalu di handle sama sistem dl ,krena lender itu fully optional klo dia emg mau lunasin
+![alt text](image-7.png)
+
+### 4.
+reserveCost  =  sisa hutang yang kg kebayar sama penyita.
+
+yg bayar reserveCost = sistem
+
+### 5.
+lender yang bakal handle (socialized loss)
+```
+1495:    // calculates if there are enough reserves to cover liquidaton - if not its shared between lenders
+1501:        (, uint256 reserves) = _getBalanceAndReserves(newDebtExchangeRateX96, newLendExchangeRateX96);
+1504:        if (reserveCost > reserves) {
+1505:            missing = reserveCost - reserves;
+```
+### 6.
+prevent self liquidaton,Healthy circular flow,double check via wallet proxy biar gbs di bypass pake wallet proxy
