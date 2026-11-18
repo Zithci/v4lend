@@ -160,3 +160,14 @@ lender yang bakal handle (socialized loss)
 ```
 ### 6.
 prevent self liquidaton,Healthy circular flow,double check via wallet proxy biar gbs di bypass pake wallet proxy
+
+
+### 7.
+```
+if (liquidatingTokenId != 0 && liquidatingTokenId == params.tokenId) {
+    revert Reentrancy();
+}
+```
+
+### 8.
+posisi nft tetep di pool,it just like regular liquidate,klo collateralValue(CV) still enough to cover ya u ttep dapat sisanya ,sisa = (debt + liquidator bonus)
