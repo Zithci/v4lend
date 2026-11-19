@@ -171,3 +171,11 @@ if (liquidatingTokenId != 0 && liquidatingTokenId == params.tokenId) {
 
 ### 8.
 posisi nft tetep di pool,it just like regular liquidate,klo collateralValue(CV) still enough to cover ya u ttep dapat sisanya ,sisa = (debt + liquidator bonus)
+
+
+##  sec 5
+### 1. 2 pangkat 127
+### 2. max slot angka buat type data int128
+### 3. token fix di tolak sama v4lend
+### 4.liquidasi tiket via chunk (pcs by pcs) gbs one chunk / 1 tx krena size valuenya terlalu gde
+### 5. lsng reject token yng udh over supply cap,prevent drift pas mau di liquid
