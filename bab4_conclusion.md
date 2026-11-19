@@ -4,7 +4,7 @@
 - gmn sistem eksekusi likuidasi — nentuin bonus penyita, siapa nombok kalo dana kurang, dan nasib tiket setelah kena sikat.
 
 ### flow
-1. tentuin bonus buat penyita between 2%(min) - 10% (max) ``` _calculateLiquidation```
+1. tentuin bonus buat penyita between 2%(min) - 10% (max) ``` _calculat eLiquidation```
 
 2. see if liquidator kuat buat handle hutng,if not continue flow no3
 
